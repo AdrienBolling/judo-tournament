@@ -2,13 +2,20 @@ from __future__ import annotations
 
 import csv
 import io
-from typing import Iterable
+from typing import TypedDict
 
 from sqlmodel import Session, delete, select
 
 from .models import GroupMembership, MatchResult, Participant, TournamentGroup
 
 CSV_COLUMNS = ["last_name", "first_name", "club", "sex", "age_category", "weight"]
+
+
+class GroupPayload(TypedDict, total=False):
+    name: str
+    sex: str
+    age_category: str
+    participant_ids: list[int | str]
 
 
 def import_participants_csv(session: Session, file_bytes: bytes, replace_existing: bool = True) -> int:
@@ -26,14 +33,19 @@ def import_participants_csv(session: Session, file_bytes: bytes, replace_existin
         raise ValueError(f"Invalid CSV columns. Expected: {', '.join(CSV_COLUMNS)}")
 
     created = 0
-    for row in reader:
+    for row_idx, row in enumerate(reader, start=2):
+        try:
+            weight = float(row["weight"])
+        except (TypeError, ValueError) as exc:
+            raise ValueError(f"Invalid weight at CSV row {row_idx}: {row['weight']!r}") from exc
+
         participant = Participant(
             last_name=row["last_name"].strip(),
             first_name=row["first_name"].strip(),
             club=row["club"].strip(),
             sex=row["sex"].strip(),
             age_category=row["age_category"].strip(),
-            weight=float(row["weight"]),
+            weight=weight,
         )
         session.add(participant)
         created += 1
@@ -76,7 +88,7 @@ def get_draft_participant_order(session: Session) -> list[int]:
     return [p.id for p in participants if p.id is not None]
 
 
-def set_groups(session: Session, groups: list[dict]) -> None:
+def set_groups(session: Session, groups: list[GroupPayload]) -> None:
     session.exec(delete(GroupMembership))
     session.exec(delete(TournamentGroup))
     session.commit()

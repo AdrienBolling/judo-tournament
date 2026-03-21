@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-import io
-
 import streamlit as st
 from sqlmodel import Session, select
 
@@ -157,7 +155,7 @@ with Session(engine) as session:
     st.text_area("Generated report", report_text, height=320)
     st.download_button(
         "Download report (.txt)",
-        data=io.BytesIO(report_text.encode("utf-8")),
+        data=report_text.encode("utf-8"),
         file_name="results_report.txt",
         mime="text/plain",
     )

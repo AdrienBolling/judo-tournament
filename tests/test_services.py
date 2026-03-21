@@ -19,7 +19,7 @@ def _new_session():
     return Session(engine)
 
 
-def test_import_filter_group_and_report_flow():
+def test_complete_tournament_workflow():
     csv_text = "\n".join(
         [
             ",".join(CSV_COLUMNS),
