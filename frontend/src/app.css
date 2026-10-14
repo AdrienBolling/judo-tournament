@@ -1,0 +1,251 @@
+:root {
+	--bg: #0f1115;
+	--surface: #1a1d24;
+	--surface-2: #232732;
+	--border: #2e3440;
+	--text: #e6e9ef;
+	--muted: #9aa3b2;
+	--accent: #4f7cff;
+	--accent-2: #3a63d8;
+	--danger: #e5484d;
+	--ok: #30a46c;
+	--radius: 10px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	background: var(--bg);
+	color: var(--text);
+	font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+	font-size: 15px;
+}
+
+a {
+	color: var(--accent);
+	text-decoration: none;
+}
+
+h1,
+h2,
+h3 {
+	font-weight: 650;
+	line-height: 1.2;
+}
+
+button {
+	font: inherit;
+	cursor: pointer;
+	border: 1px solid var(--border);
+	background: var(--surface-2);
+	color: var(--text);
+	padding: 0.5rem 0.85rem;
+	border-radius: var(--radius);
+	transition: background 0.12s ease, border-color 0.12s ease;
+}
+button:hover:not(:disabled) {
+	border-color: var(--accent);
+}
+button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+button.primary {
+	background: var(--accent);
+	border-color: var(--accent);
+	color: white;
+}
+button.primary:hover:not(:disabled) {
+	background: var(--accent-2);
+}
+button.danger {
+	border-color: var(--danger);
+	color: var(--danger);
+}
+button.ghost {
+	background: transparent;
+}
+button.link {
+	background: none;
+	border: none;
+	padding: 0;
+	color: var(--accent);
+	text-decoration: underline;
+	display: inline;
+}
+button.link:hover {
+	color: var(--accent-2);
+}
+
+input,
+select {
+	font: inherit;
+	background: var(--surface);
+	color: var(--text);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 0.5rem 0.6rem;
+	width: 100%;
+}
+input:focus,
+select:focus {
+	outline: none;
+	border-color: var(--accent);
+}
+
+label {
+	display: block;
+	font-size: 0.82rem;
+	color: var(--muted);
+	margin-bottom: 0.25rem;
+}
+
+.field {
+	margin-bottom: 0.75rem;
+}
+
+.card {
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 1rem 1.1rem;
+	margin-bottom: 1rem;
+}
+
+.row {
+	display: flex;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+}
+.row > * {
+	/* Grow to fill, but never shrink below a usable width — wrap instead. */
+	flex: 1 1 180px;
+	min-width: 0;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+}
+th,
+td {
+	text-align: left;
+	padding: 0.5rem 0.6rem;
+	border-bottom: 1px solid var(--border);
+}
+th {
+	color: var(--muted);
+	font-weight: 600;
+	font-size: 0.8rem;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+}
+
+.muted {
+	color: var(--muted);
+}
+.error {
+	color: var(--danger);
+	font-size: 0.9rem;
+}
+.ok {
+	color: var(--ok);
+}
+.tag {
+	display: inline-block;
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	border-radius: 999px;
+	padding: 0.1rem 0.55rem;
+	font-size: 0.78rem;
+	color: var(--muted);
+}
+code {
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	padding: 0.1rem 0.4rem;
+	font-size: 0.85rem;
+}
+
+.container {
+	max-width: 1000px;
+	margin: 0 auto;
+	padding: 1.5rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Print — clean black-on-white sheets (used by the participant print view)
+   --------------------------------------------------------------------------- */
+@media print {
+	/* Hide app chrome and anything explicitly marked screen-only. */
+	.topnav,
+	.backdrop,
+	.no-print,
+	.arrow {
+		display: none !important;
+	}
+	html,
+	body {
+		background: #fff;
+		color: #000;
+		font-size: 12px;
+	}
+	.container {
+		padding: 0;
+		max-width: none;
+	}
+	.card {
+		background: #fff;
+		border: none;
+		padding: 0;
+		margin: 0;
+	}
+	table {
+		width: 100%;
+	}
+	th,
+	td {
+		color: #000 !important;
+		border-bottom: 1px solid #999 !important;
+		padding: 4px 6px;
+	}
+	a {
+		color: #000;
+		text-decoration: none;
+	}
+	/* Avoid breaking a participant row across pages. */
+	tr {
+		break-inside: avoid;
+	}
+}
+
+/* ---------------------------------------------------------------------------
+   Responsive — phones / narrow viewports
+   --------------------------------------------------------------------------- */
+@media (max-width: 640px) {
+	html,
+	body {
+		font-size: 14px;
+	}
+	.container {
+		padding: 1rem;
+	}
+	.card {
+		padding: 0.85rem;
+	}
+	/* Stack form fields full-width on small screens. */
+	.row > * {
+		flex-basis: 100%;
+	}
+	/* Keep selects/date inputs from forcing horizontal overflow. */
+	input,
+	select {
+		max-width: 100%;
+	}
+}

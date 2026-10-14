@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Local database (runtime state)
+*.db
+*.db-shm
+*.db-wal
+
+# OS
+.DS_Store
